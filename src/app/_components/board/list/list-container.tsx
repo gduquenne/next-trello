@@ -12,10 +12,11 @@ interface IListContainer {
 }
 
 export const ListContainer = ({ loadedValues }: IListContainer) => {
-  const { lists, setLists } = useLists();
+  const { lists, setLists, setInitialValues } = useLists();
 
   useEffect(() => {
     setLists(loadedValues);
+    setInitialValues(loadedValues);
   }, [loadedValues]);
 
   return (

@@ -159,9 +159,6 @@ textarea {
   &:active {
     background-color: rgb(73, 133, 46) !important;
   }
-  &:focus {
-    background-color: rgb(73, 133, 46) !important;
-  }
 }
 
 .list-container-outer {
