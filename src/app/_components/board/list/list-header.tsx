@@ -9,7 +9,7 @@ export const ListHeader = ({ list }: ListHeaderProps) => {
   return (
     <div className="list-header">
       <div className="list-header-title">{list.title}</div>
-      <DeleteListButton listId={list.id} />
+      <DeleteListButton list={list} />
     </div>
   );
 };

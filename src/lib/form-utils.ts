@@ -1,11 +1,10 @@
 import { KeyboardEvent } from 'react';
 
-export const handleKeyDown = (
+export const handleEnterKeyDown = (
   e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
   handleSubmit: () => void
 ) => {
   if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
     handleSubmit();
   }
 };

@@ -1,14 +1,14 @@
 import { Card } from '.';
-import { Card as TCard } from '@/types';
+import { ListWithCards } from '@/types';
 
 interface CardContainerProps {
-  cards: TCard[];
+  list: ListWithCards;
 }
 
-export const CardContainer = ({ cards }: CardContainerProps) => {
+export const CardContainer = ({ list }: CardContainerProps) => {
   return (
     <>
-      {cards.map(card => (
+      {list.cards.map(card => (
         <Card key={card.id} card={card} />
       ))}
     </>

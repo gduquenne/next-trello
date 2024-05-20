@@ -1,41 +1,30 @@
 'use client';
 
-import { createList } from '@/actions/create-list';
-import { useAction } from '@/hooks/use-action';
-import { useListsContext } from '@/hooks/use-list-context';
-import { handleKeyDown } from '@/lib/form-utils';
+import { v4 as uuidv4 } from 'uuid';
+import { handleEnterKeyDown } from '@/lib/form-utils';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRef, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
+import { useLists } from '@/stores/lists-store';
 
 export const AddNewListForm = () => {
   const ref = useRef(null);
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [title, setTitle] = useState('');
+  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>('');
 
-  const { handleAddList } = useListsContext();
-
-  const { execute } = useAction(createList, {
-    onSuccess: data => {
-      handleAddList(data);
-      setIsFormVisible(false);
-      setTitle('');
-    },
-    onError: error => console.log(error)
-  });
+  const { handleAddList } = useLists();
 
   useOnClickOutside(ref, () => setIsFormVisible(false));
 
-  const handleSubmit = (e?: React.FormEvent) => {
-    if (e) {
-      e.preventDefault();
-    }
+  const handleSubmit = () => {
     if (title.trim().length === 0) {
       return;
     }
 
-    execute({ title });
+    handleAddList({ title, id: uuidv4() });
+    setIsFormVisible(false);
+    setTitle('');
   };
 
   return (
@@ -44,7 +33,7 @@ export const AddNewListForm = () => {
       className={
         isFormVisible ? 'new-list-form-opened' : 'new-list-form-closed'
       }
-      onSubmit={handleSubmit}
+      action={handleSubmit}
     >
       {isFormVisible ? (
         <div>
@@ -53,7 +42,7 @@ export const AddNewListForm = () => {
             className="new-list-form-input"
             placeholder="Saisissez un titre pour cette carte..."
             value={title}
-            onKeyDown={e => handleKeyDown(e, handleSubmit)}
+            onKeyDown={e => handleEnterKeyDown(e, handleSubmit)}
             onChange={e => setTitle(e.target.value)}
           />
           <div className="add-new-card-form-validation-buttons-container">

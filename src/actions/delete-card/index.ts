@@ -24,7 +24,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   }
 
   revalidatePath(`/`);
-  return { data: card };
+  return { data: id };
 };
 
 export const deleteCard = createSafeAction(DeleteCard, handler);

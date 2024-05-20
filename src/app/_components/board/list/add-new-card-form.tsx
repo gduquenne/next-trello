@@ -1,13 +1,12 @@
 'use client';
 
-import { createCard } from '@/actions/create-card';
-import { useAction } from '@/hooks/use-action';
-import { useListsContext } from '@/hooks/use-list-context';
-import { handleKeyDown } from '@/lib/form-utils';
+import { v4 as uuidv4 } from 'uuid';
+import { handleEnterKeyDown } from '@/lib/form-utils';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRef, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
+import { useLists } from '@/stores/lists-store';
 
 interface AddNewCardFormProps {
   listId: string;
@@ -15,43 +14,32 @@ interface AddNewCardFormProps {
 
 export const AddNewCardForm = ({ listId }: AddNewCardFormProps) => {
   const ref = useRef(null);
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [title, setTitle] = useState('');
+  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>('');
 
-  const { handleAddCard } = useListsContext();
-
-  const { execute } = useAction(createCard, {
-    onSuccess: data => {
-      handleAddCard(data);
-      setIsFormVisible(false);
-      setTitle('');
-    },
-    onError: error => console.log(error)
-  });
+  const { handleAddCard } = useLists();
 
   useOnClickOutside(ref, () => setIsFormVisible(false));
 
-  const handleSubmit = (e?: React.FormEvent) => {
-    console.log('handleSubmit', { e, title });
-    if (e) {
-      e.preventDefault();
-    }
+  const handleSubmit = () => {
     if (title.trim().length === 0) {
       return;
     }
 
-    execute({ listId, title });
+    handleAddCard({ listId, title, id: uuidv4() });
+    setIsFormVisible(false);
+    setTitle('');
   };
 
   return (
-    <form ref={ref} className="add-new-card-form" onSubmit={handleSubmit}>
+    <form ref={ref} className="add-new-card-form" action={handleSubmit}>
       {isFormVisible ? (
         <div>
           <textarea
             className="add-new-card-form-textarea"
             placeholder="Saisissez le titre de la liste..."
             value={title}
-            onKeyDown={e => handleKeyDown(e, handleSubmit)}
+            onKeyDown={e => handleEnterKeyDown(e, handleSubmit)}
             onChange={e => setTitle(e.target.value)}
           />
           <div className="add-new-card-form-validation-buttons-container">

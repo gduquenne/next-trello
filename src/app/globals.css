@@ -535,14 +535,11 @@ textarea {
 .modal-card-button-close {
   cursor: pointer;
   border-radius: 50%;
-  position: absolute;
-  transform: rotate(45deg);
-  top: 0px;
-  right: 0px;
   height: 32px;
-  margin: 4px;
-  padding: 4px;
   width: 32px;
+  &:hover {
+    background-color: rgba(9, 30, 66, 0.08);
+  }
 }
 
 .modal-card-content {
@@ -556,9 +553,6 @@ textarea {
 }
 
 .modal-card-title {
-  -webkit-box-align: center;
-  align-items: center;
-  display: flex;
   font-size: 20px;
   font-weight: 600;
   height: 33px;
@@ -614,6 +608,7 @@ textarea {
 .modal-card-description-form-footer {
   display: flex !important;
   margin-top: 4px !important;
+  align-items: center !important;
 }
 
 .modal-card-description-form-button-save {
@@ -636,24 +631,21 @@ textarea {
   border-radius: 3px !important;
   font-size: 14px !important;
   color: rgb(255, 255, 255) !important;
-  margin: 0px !important;
   padding-left: 12px !important;
   padding-right: 12px !important;
   outline: none !important;
-  line-height: 32px !important;
   background-color: transparent !important;
   cursor: pointer !important;
   height: 32px !important;
   position: relative !important;
   width: 32px !important;
+  &:hover {
+    background-color: rgba(9, 30, 66, 0.08);
+  }
 }
 
 .modal-card-description-form-button-close-icon {
   margin-left: 4px !important;
-  position: absolute !important;
-  transform: translate(-50%, -50%) rotate(45deg) !important;
-  top: 50% !important;
-  left: 50% !important;
   height: 20px !important;
   width: 20px !important;
 }

@@ -1,22 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { useListsContext } from '@/hooks/use-list-context';
 import { List } from '.';
 import { ListWithCards } from '@/types';
-import { useEffect } from 'react';
 import { AddNewListForm } from './add-new-list-form';
+import { useLists } from '@/stores/lists-store';
+import { useEffect } from 'react';
 
 interface IListContainer {
   loadedValues: ListWithCards[];
 }
 
 export const ListContainer = ({ loadedValues }: IListContainer) => {
-  const { lists, setLists, setInitialValue } = useListsContext();
+  const { lists, setLists } = useLists();
 
   useEffect(() => {
     setLists(loadedValues);
-    setInitialValue(loadedValues);
-  }, [loadedValues, setLists, setInitialValue]);
+  }, [loadedValues]);
 
   return (
     <div className="list-container-outer">

@@ -7,6 +7,6 @@ interface ListBodyProps {
 
 export const ListBody = ({ list }: ListBodyProps) => (
   <div className="list-body">
-    <CardContainer cards={list.cards} />
+    <CardContainer list={list} />
   </div>
 );

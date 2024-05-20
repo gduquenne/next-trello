@@ -1,9 +1,9 @@
 'use client';
 
-import { useListsContext } from '@/hooks/use-list-context';
+import { useLists } from '@/stores/lists-store';
 
 export const ButtonReset = () => {
-  const { handleReset } = useListsContext();
+  const { handleReset } = useLists();
 
   return (
     <button className="board-header-reset-button" onClick={handleReset}>

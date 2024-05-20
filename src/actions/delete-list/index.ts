@@ -23,7 +23,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   }
 
   revalidatePath(`/`);
-  return { data: list };
+  return { data: list.id };
 };
 
 export const deleteList = createSafeAction(DeleteList, handler);
