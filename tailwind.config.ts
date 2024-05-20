@@ -15,7 +15,9 @@ const config: Config = {
       },
       colors: {
         'next-trello-bg-color': '#838c91',
-        'text-area-border-color': 'rgb(133, 133, 133)'
+        'text-area-border-color': 'rgb(133, 133, 133)',
+        'check-icon-color': 'rgb(97, 189, 79)',
+        'light-gray': 'rgba(9, 30, 66, 0.04)'
       }
     }
   },

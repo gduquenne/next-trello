@@ -4,7 +4,12 @@ import { useCardModal } from '@/hooks/use-card-modal';
 import { useLists } from '@/stores/lists-store';
 import { handleEnterKeyDown } from '@/lib/form-utils';
 import { Card, ListWithCards } from '@/types';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faEye,
+  faMinus,
+  faXmark
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Dialog,
@@ -23,7 +28,7 @@ export const CardModal = () => {
   const setClose = useCardModal(state => state.setClose);
   const setIsEditing = useCardModal(state => state.setIsEditing);
 
-  const { lists, handleUpdateCard } = useLists();
+  const { lists, handleUpdateCard, handleDeleteCard } = useLists();
 
   const [card, setCard] = useState<Card | undefined>();
   const [list, setList] = useState<ListWithCards | undefined>();
@@ -38,12 +43,25 @@ export const CardModal = () => {
     setDescription(foundCard.description);
   }, [lists, cardId, listId]);
 
+  if (!list || !card) return null;
+
   const handleSaveDesc = () => {
     setIsEditing(false);
-    handleUpdateCard({ ...card!, description });
+    handleUpdateCard({ ...card, description });
   };
 
-  if (!list || !card) return null;
+  const handleFollow = () => {
+    handleUpdateCard({ ...card, followed: !card.followed });
+  };
+
+  const handleDelete = () => {
+    confirm(
+      `Vous allez supprimer la carte nommée ${card.title}.\nAppuyez sur "OK" pour continuer.\nOu sur "Annuler" pour fermer.`
+    );
+    setIsEditing(false);
+    setClose();
+    handleDeleteCard(card.id, list.id);
+  };
 
   return (
     <Dialog
@@ -60,6 +78,12 @@ export const CardModal = () => {
             <div className="modal-card-subtitle">
               Dans la liste&nbsp;
               <u>{list.title}</u>
+              {card.followed && (
+                <>
+                  &nbsp;
+                  <FontAwesomeIcon icon={faEye} />
+                </>
+              )}
             </div>
           </div>
           <button className="modal-card-button-close" onClick={setClose}>
@@ -74,6 +98,7 @@ export const CardModal = () => {
             {isEditing ? (
               <>
                 <TextareaAutosize
+                  autoFocus
                   value={description}
                   onChange={e => setDescription(e.target.value)}
                   onKeyDown={e => handleEnterKeyDown(e, handleSaveDesc)}
@@ -102,7 +127,7 @@ export const CardModal = () => {
               </>
             ) : (
               <div
-                className="hover:cursor-pointer hover:bg-gray-300"
+                className="hover:cursor-pointer hover:bg-gray-300 bg-light-gray min-h-[50px] rounded p-3"
                 onClick={() => setIsEditing(true)}
               >
                 {description?.length
@@ -113,6 +138,29 @@ export const CardModal = () => {
           </div>
           <div className="pl-5" style={{ minWidth: 190 }}>
             <div className="modal-card-body-title">Actions</div>
+            <button
+              onClick={handleFollow}
+              className="flex w-full pl-3 py-px pr-1 items-center bg-light-gray rounded"
+            >
+              <FontAwesomeIcon icon={faEye} className="w-4 pr-2" />
+              <div>Suivre</div>
+              {card.followed && (
+                <div className="w-6 h-6 ml-auto bg-check-icon-color rounded ">
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    // color="white"
+                    className="w-[18px] text-white"
+                  />
+                </div>
+              )}
+            </button>
+            <button
+              onClick={handleDelete}
+              className="flex w-full pl-3 py-px pr-1 items-center bg-light-gray rounded mt-2"
+            >
+              <FontAwesomeIcon icon={faMinus} className="w-4 pr-2" />
+              <div>Supprimer</div>
+            </button>
           </div>
         </div>
       </DialogContent>
