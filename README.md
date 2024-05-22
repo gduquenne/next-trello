@@ -8,6 +8,15 @@ Node => v18.17
 
 ## Getting Started
 
+### Using Docker
+
+```bash
+docker build -t next-trello .
+docker run -p 3000:3000 next-trello
+```
+
+### Using your package manager
+
 First install packages, from root project, using your favorite package manager. For example using npm :
 
 ```bash
@@ -59,6 +68,6 @@ Fonctionnellement :
 Techniquement :
 
 - accorder le persist store de zustand et Next
-- refonte du style
+- push l'image docker
 - mise en place de tests (unitaires, d'intégration, end-to-end)
 - réorganiser les composants en fonction des fonctionnalités à venir
