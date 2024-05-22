@@ -1,13 +1,13 @@
+import { Button } from '@/components/ui/button';
 import { useLists } from '@/stores/lists-store';
 import { Card } from '@/types';
-import { faCheck, faEye } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Check, Eye } from 'lucide-react';
 
 interface IButtonFollow {
   card: Card;
 }
 
-export const ButtonFollow = ({ card }: IButtonFollow) => {
+export const ButtonFollow: React.FC<IButtonFollow> = ({ card }) => {
   const { handleUpdateCard } = useLists();
 
   const handleFollow = () => {
@@ -15,21 +15,19 @@ export const ButtonFollow = ({ card }: IButtonFollow) => {
   };
 
   return (
-    <button
+    <Button
+      variant="transparent-hover-dark"
+      size="full"
+      className="text-c-grey-4 space-x-2 px-2"
       onClick={handleFollow}
-      className="flex w-full pl-3 py-px pr-1 items-center bg-light-gray rounded"
     >
-      <FontAwesomeIcon icon={faEye} className="w-4 pr-2" />
-      <div>Suivre</div>
+      <Eye className="min-w-4 max-w-4 min-h-4 max-h-4" />
+      <div className="w-full flex justify-start">Suivre</div>
       {card.followed && (
-        <div className="w-6 h-6 ml-auto bg-check-icon-color rounded ">
-          <FontAwesomeIcon
-            icon={faCheck}
-            // color="white"
-            className="w-[18px] text-white"
-          />
+        <div className="w-6 h-6 bg-check-icon-color rounded text-white">
+          <Check />
         </div>
       )}
-    </button>
+    </Button>
   );
 };

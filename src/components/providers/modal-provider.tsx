@@ -1,8 +1,8 @@
 'use client';
 
-import { CardModal } from '@/components/modals/card-modal';
+import { useEffect, useState } from 'react';
 import { Card, List } from '@/types';
-import React, { createContext, useEffect, useState } from 'react';
+import { CardModal } from '@/components/modals/card-modal';
 
 export interface ICardModalContext {
   open: boolean;
@@ -12,9 +12,7 @@ export interface ICardModalContext {
   handleClose: () => void;
 }
 
-export const CardModalProvider = ({
-  children
-}: React.PropsWithChildren<{}>) => {
+export const CardModalProvider: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {

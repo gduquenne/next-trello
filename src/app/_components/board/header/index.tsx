@@ -1,9 +1,9 @@
-import { ButtonReset } from './button-reset';
-import { BoardTitle } from './board-title';
+import React from 'react';
 
-export const BoardHeader = () => (
-  <div className="board-header-container">
-    <BoardTitle />
-    <ButtonReset />
-  </div>
+interface BoardHeaderProps {
+  children: React.ReactNode;
+}
+
+export const BoardHeader: React.FC<BoardHeaderProps> = ({ children }) => (
+  <div className="flex items-center space-x-4 p-2">{children}</div>
 );

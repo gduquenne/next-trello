@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Header } from './_components/header';
+import { CardModalProvider } from '@/components/providers/modal-provider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <CardModalProvider />
         <Header />
         {children}
       </body>

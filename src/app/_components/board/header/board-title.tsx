@@ -1,3 +1,5 @@
-export const BoardTitle = () => (
-  <h1 className="board-header-title">Tableau principal</h1>
+interface BoardTitleProps {}
+
+export const BoardTitle: React.FC<BoardTitleProps> = () => (
+  <h1 className="text-[18px] font-bold pl-3">Tableau principal</h1>
 );

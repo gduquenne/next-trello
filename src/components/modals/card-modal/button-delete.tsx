@@ -1,35 +1,40 @@
+import { Button } from '@/components/ui/button';
 import { useCardModal } from '@/hooks/use-card-modal';
 import { useLists } from '@/stores/lists-store';
 import { Card, List } from '@/types';
-import { faMinus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Minus } from 'lucide-react';
 
 interface IButtonDelete {
   card: Card;
 }
 
-export const ButtonDelete = ({ card }: IButtonDelete) => {
+export const ButtonDelete: React.FC<IButtonDelete> = ({ card }) => {
   const setIsEditing = useCardModal(state => state.setIsEditing);
   const setClose = useCardModal(state => state.setClose);
 
   const { handleDeleteCard } = useLists();
 
   const handleDelete = () => {
-    confirm(
-      `Vous allez supprimer la carte nommée ${card.title}.\nAppuyez sur "OK" pour continuer.\nOu sur "Annuler" pour fermer.`
-    );
-    setIsEditing(false);
-    setClose();
-    handleDeleteCard(card.id, card.listId);
+    if (
+      confirm(
+        `Vous allez supprimer la carte nommée ${card.title}.\nAppuyez sur "OK" pour continuer.\nOu sur "Annuler" pour fermer.`
+      )
+    ) {
+      setIsEditing(false);
+      setClose();
+      handleDeleteCard(card.id, card.listId);
+    }
   };
 
   return (
-    <button
+    <Button
+      variant="transparent-hover-dark"
+      size="full"
+      className="text-c-grey-4 space-x-2 px-2"
       onClick={handleDelete}
-      className="flex w-full pl-3 py-px pr-1 items-center bg-light-gray rounded mt-2"
     >
-      <FontAwesomeIcon icon={faMinus} className="w-4 pr-2" />
-      <div>Supprimer</div>
-    </button>
+      <Minus size={16} />
+      <div className="w-full flex justify-start">Supprimer</div>
+    </Button>
   );
 };

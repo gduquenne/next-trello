@@ -1,16 +1,24 @@
+import React from 'react';
 import { ListWithCards } from '@/types';
 import { BoardHeader } from './header';
-import { ListContainer } from './list/list-container';
 import { CardModalProvider } from '@/components/providers/modal-provider';
+import { BoardTitle } from './header/board-title';
+import { ButtonReset } from './header/button-reset';
+import { BoardBody } from './content';
 
-export const Board = async () => {
+interface BoardProps {}
+
+export const Board: React.FC<BoardProps> = async () => {
   const lists = await getListsWithCards();
 
   return (
     <>
-      <BoardHeader />
       <CardModalProvider />
-      <ListContainer loadedValues={lists} />
+      <BoardHeader>
+        <BoardTitle />
+        <ButtonReset />
+      </BoardHeader>
+      <BoardBody loadedValues={lists} />
     </>
   );
 };
@@ -63,7 +71,7 @@ export const getListsWithCards = async () => {
         }
       ];
       resolve(loadedValues);
-    }, 500)
+    }, 100)
   );
   values = await loader;
   return values as ListWithCards[];
